@@ -1,0 +1,58 @@
+{
+  "compute_tier": "T4",
+  "limits": {
+    "ifeval": 30,
+    "gsm8k": 30,
+    "mmlu": 100,
+    "alpaca_lite": 50
+  },
+  "note": "Partial run — NB6 was interrupted for early submission. IFEval-SFT, GSM8K-DPO, MMLU pairs missing. Re-run NB6 to complete.",
+  "metrics": {
+    "IFEval (prompt-strict)": {
+      "sft": null,
+      "dpo": 0.3
+    },
+    "GSM8K (exact-match strict)": {
+      "sft": 0.7,
+      "dpo": null
+    },
+    "MMLU (acc, sampled)": {
+      "sft": null,
+      "dpo": null
+    },
+    "AlpacaEval-lite (win-rate)": {
+      "sft": 0.24,
+      "dpo": 0.4
+    }
+  },
+  "deltas": {
+    "IFEval (prompt-strict)": null,
+    "GSM8K (exact-match strict)": null,
+    "MMLU (acc, sampled)": null,
+    "AlpacaEval-lite (win-rate)": 0.16000000000000003
+  },
+  "raw": {
+    "ifeval-dpo": {
+      "ifeval": {
+        "alias": "ifeval",
+        "prompt_level_strict_acc,none": 0.3,
+        "prompt_level_strict_acc_stderr,none": 0.08509629433967632,
+        "inst_level_strict_acc,none": 0.4222222222222222,
+        "inst_level_strict_acc_stderr,none": "N/A",
+        "prompt_level_loose_acc,none": 0.3333333333333333,
+        "prompt_level_loose_acc_stderr,none": 0.0875376219064817,
+        "inst_level_loose_acc,none": 0.4222222222222222,
+        "inst_level_loose_acc_stderr,none": "N/A"
+      }
+    },
+    "gsm8k-sft": {
+      "gsm8k": {
+        "alias": "gsm8k",
+        "exact_match,strict-match": 0.7,
+        "exact_match_stderr,strict-match": 0.0850962943396763,
+        "exact_match,flexible-extract": 0.6666666666666666,
+        "exact_match_stderr,flexible-extract": 0.08753762190648169
+      }
+    }
+  }
+}

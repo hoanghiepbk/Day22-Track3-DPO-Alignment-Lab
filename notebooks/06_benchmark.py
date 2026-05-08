@@ -2,6 +2,11 @@
 # jupyter:
 #   jupytext:
 #     formats: py:percent
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.19.1
 # ---
 
 # %% [markdown]
@@ -31,11 +36,14 @@ from pathlib import Path
 COMPUTE_TIER = os.environ.get("COMPUTE_TIER", "T4").upper()
 
 if COMPUTE_TIER == "T4":
-    LIMIT_IFEVAL = 540
-    LIMIT_GSM8K = 500
-    LIMIT_MMLU = 500
-    LIMIT_ALPACA = 100
-    BATCH_SIZE = 1
+    # On Windows + RTX 5070 + bnb-4bit, lm-eval generates ~100s/prompt for math/IFEval
+    # tasks. Drop limits to keep total wall-clock < 1h while still reporting all 4
+    # benchmarks. Override via env if you have time/budget for full scale.
+    LIMIT_IFEVAL = int(os.environ.get("LIMIT_IFEVAL", "30"))
+    LIMIT_GSM8K = int(os.environ.get("LIMIT_GSM8K", "30"))
+    LIMIT_MMLU = int(os.environ.get("LIMIT_MMLU", "100"))
+    LIMIT_ALPACA = int(os.environ.get("LIMIT_ALPACA", "50"))
+    BATCH_SIZE = int(os.environ.get("BATCH_SIZE", "4"))
 else:
     LIMIT_IFEVAL = 540
     LIMIT_GSM8K = 1319
@@ -71,28 +79,39 @@ assert torch.cuda.is_available(), "Need GPU. See HARDWARE-GUIDE.md."
 import subprocess
 
 
+import sys
+
+
 def run_lm_eval(adapter_path, tasks, limit, num_fewshot, label):
     """Run lm-eval-harness with PEFT adapter on top of base, return parsed metrics."""
     base = "unsloth/Qwen2.5-3B-bnb-4bit" if COMPUTE_TIER == "T4" else "unsloth/Qwen2.5-7B-bnb-4bit"
     out_dir = EVAL_OUT / f"lm-{label}-{tasks}"
+    # Invoke as `python -m lm_eval` for cross-platform (Windows lacks lm_eval.exe shim).
     cmd = [
-        "lm_eval",
+        sys.executable, "-m", "lm_eval",
         "--model", "hf",
-        "--model_args", f"pretrained={base},peft={adapter_path},load_in_4bit=True",
+        # `unsloth/Qwen2.5-3B-bnb-4bit` is pre-quantized — passing load_in_4bit
+        # again conflicts with the embedded quantization_config.
+        "--model_args", f"pretrained={base},peft={adapter_path},dtype=bfloat16",
         "--tasks", tasks,
         "--num_fewshot", str(num_fewshot),
         "--limit", str(limit),
         "--batch_size", str(BATCH_SIZE),
         "--device", "cuda:0",
         "--output_path", str(out_dir),
+        # Cap generation length — default 2048 wastes time for short-answer tasks.
+        "--gen_kwargs", "max_gen_toks=256",
     ]
     print(f"\n{'=' * 60}\nRunning lm-eval [{label}]: {tasks}\n{'=' * 60}")
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=2400)
 
     out_files = sorted(out_dir.glob("**/results*.json"))
     if not out_files:
-        print("WARN: lm-eval didn't write results JSON. STDOUT tail:")
-        print(proc.stdout[-1000:])
+        print(f"WARN: lm-eval didn't write results JSON (rc={proc.returncode}).")
+        print("STDOUT tail:")
+        print(proc.stdout[-1500:] if proc.stdout else "(empty)")
+        print("STDERR tail:")
+        print(proc.stderr[-1500:] if proc.stderr else "(empty)")
         return {"error": "no_results"}
     return json.loads(out_files[-1].read_text())["results"]
 
@@ -193,6 +212,9 @@ def generate_with_adapter(adapter_path, prompts, max_new_tokens=256):
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    if not getattr(tokenizer, "chat_template", None):
+        from unsloth.chat_templates import get_chat_template
+        tokenizer = get_chat_template(tokenizer, chat_template="qwen-2.5")
     model = PeftModel.from_pretrained(model, str(adapter_path))
     FastLanguageModel.for_inference(model)
 

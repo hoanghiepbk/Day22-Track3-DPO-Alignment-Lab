@@ -3,6 +3,13 @@
 Lab cho **AICB-P2T3 · Ngày 22 · DPO/ORPO Alignment — From SFT to Preference Learning**.
 Build SFT-mini checkpoint → train DPO adapter → compare SFT-only vs SFT+DPO → merge + GGUF + serve.
 
+> **Submission · Phạm Hữu Hoàng Hiệp · MSSV 2A202600415 · 2026-05-08**
+> - 🤗 Trained model on HF Hub: https://huggingface.co/hiepphambk/lab22-dpo-vn (DPO LoRA + Q4_K_M GGUF + model card)
+> - 📊 W&B training run: https://wandb.ai/hoanghiepphambk-institution-of-engineering-and-technology/lab22-dpo/runs/diab5vrs
+> - 📝 Reflection: [`submission/REFLECTION.md`](submission/REFLECTION.md) (7 sections, all filled)
+> - 📸 Screenshots: [`submission/screenshots/`](submission/screenshots/) (9 PNG)
+> - 🛠 Local Windows + RTX 5070 (Blackwell sm_120) — see REFLECTION §6 for the workarounds (chat_template, FP16 merge, dataset substitution).
+
 > Lab 22 là **lab alignment đầu tiên trong khoá** — bạn đi từ SFT (Lab 21) sang preference learning, đo helpfulness/safety bằng judge, và export model deployable. Output có thể là 1 **DPO-aligned VN model open-source publishable đầu tiên end-to-end của khoá** (xem deck §5).
 
 ---

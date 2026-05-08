@@ -2,6 +2,11 @@
 # jupyter:
 #   jupytext:
 #     formats: py:percent
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.19.1
 # ---
 
 # %% [markdown]
@@ -79,6 +84,9 @@ def generate_with_adapter(adapter_path: Path, prompts: list[dict], max_new_token
     )
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+    if not getattr(tokenizer, "chat_template", None):
+        from unsloth.chat_templates import get_chat_template
+        tokenizer = get_chat_template(tokenizer, chat_template="qwen-2.5")
 
     model = PeftModel.from_pretrained(model, str(adapter_path))
     FastLanguageModel.for_inference(model)

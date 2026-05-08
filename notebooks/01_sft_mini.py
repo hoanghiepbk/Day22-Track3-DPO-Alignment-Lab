@@ -2,6 +2,11 @@
 # jupyter:
 #   jupytext:
 #     formats: py:percent
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.19.1
 # ---
 
 # %% [markdown]
@@ -84,6 +89,13 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
     print("Set tokenizer.pad_token = eos_token")
+
+# Some unsloth bnb-4bit Qwen2.5 builds ship without chat_template — patch with
+# Unsloth's official Qwen-2.5 template so apply_chat_template() works downstream.
+if not getattr(tokenizer, "chat_template", None):
+    from unsloth.chat_templates import get_chat_template
+    tokenizer = get_chat_template(tokenizer, chat_template="qwen-2.5")
+    print("Applied qwen-2.5 chat_template via unsloth.chat_templates")
 
 # %%
 model = FastLanguageModel.get_peft_model(

@@ -2,6 +2,11 @@
 # jupyter:
 #   jupytext:
 #     formats: py:percent
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.19.1
 # ---
 
 # %% [markdown]
@@ -86,6 +91,9 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 )
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
+if not getattr(tokenizer, "chat_template", None):
+    from unsloth.chat_templates import get_chat_template
+    tokenizer = get_chat_template(tokenizer, chat_template="qwen-2.5")
 
 # Load SFT adapter on top of base
 model = PeftModel.from_pretrained(model, str(SFT_PATH), is_trainable=True)
@@ -123,6 +131,12 @@ print(f"Trainable params (DPO LoRA): {sum(p.numel() for p in model.parameters() 
 # %%
 from trl import DPOConfig
 
+# Enable W&B logging if WANDB_API_KEY present — bonus add-on (+2 pts).
+_use_wandb = bool(os.environ.get("WANDB_API_KEY"))
+if _use_wandb:
+    os.environ.setdefault("WANDB_PROJECT", "lab22-dpo")
+    os.environ.setdefault("WANDB_RUN_NAME", f"dpo-beta{BETA}-lr{LR}")
+
 dpo_config = DPOConfig(
     output_dir=str(DPO_OUT.parent / "dpo-checkpoints"),
     per_device_train_batch_size=PER_DEVICE_BATCH,
@@ -141,7 +155,8 @@ dpo_config = DPOConfig(
     fp16=not torch.cuda.is_bf16_supported(),
     seed=42,
     loss_type="sigmoid",         # DPO standard (alternatives: ipo, hinge, kto)
-    report_to="none",
+    report_to="wandb" if _use_wandb else "none",
+    run_name=f"dpo-beta{BETA}-lr{LR}" if _use_wandb else None,
 )
 
 print(f"DPOConfig: beta={dpo_config.beta}  lr={dpo_config.learning_rate}  loss_type={dpo_config.loss_type}")

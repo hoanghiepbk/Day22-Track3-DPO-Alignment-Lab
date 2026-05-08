@@ -28,6 +28,20 @@ wandb/
 .cache/
 hf_cache/
 
+# Vendored llama.cpp Windows binaries (downloaded once, ~54 MB — keep out of git)
+tools/llama-cpp/
+tools/*.zip
+adapters/merged-fp16/
+adapters/dpo-checkpoints/
+adapters/sft-mini-checkpoints/
+
+# Claude Code session metadata
+.claude/
+
+# Unsloth compiled-kernel cache (regenerated per run)
+unsloth_compiled_cache/
+notebooks/unsloth_compiled_cache/
+
 # Env / secrets
 .env
 .env.local
