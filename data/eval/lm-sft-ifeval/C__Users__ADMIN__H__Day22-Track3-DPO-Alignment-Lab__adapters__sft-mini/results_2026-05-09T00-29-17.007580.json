@@ -2,13 +2,13 @@
   "results": {
     "ifeval": {
       "alias": "ifeval",
-      "prompt_level_strict_acc,none": 0.3,
-      "prompt_level_strict_acc_stderr,none": 0.08509629433967632,
-      "inst_level_strict_acc,none": 0.4222222222222222,
+      "prompt_level_strict_acc,none": 0.3333333333333333,
+      "prompt_level_strict_acc_stderr,none": 0.0875376219064817,
+      "inst_level_strict_acc,none": 0.37777777777777777,
       "inst_level_strict_acc_stderr,none": "N/A",
-      "prompt_level_loose_acc,none": 0.3333333333333333,
-      "prompt_level_loose_acc_stderr,none": 0.0875376219064817,
-      "inst_level_loose_acc,none": 0.4222222222222222,
+      "prompt_level_loose_acc,none": 0.4,
+      "prompt_level_loose_acc_stderr,none": 0.0909717652294684,
+      "inst_level_loose_acc,none": 0.4,
       "inst_level_loose_acc_stderr,none": "N/A"
     }
   },
@@ -75,7 +75,7 @@
       "metadata": {
         "version": 4.0,
         "pretrained": "unsloth/Qwen2.5-3B-bnb-4bit",
-        "peft": "C:\\Users\\ADMIN\\H\\Day22-Track3-DPO-Alignment-Lab\\adapters\\dpo",
+        "peft": "C:\\Users\\ADMIN\\H\\Day22-Track3-DPO-Alignment-Lab\\adapters\\sft-mini",
         "dtype": "bfloat16"
       }
     }
@@ -104,7 +104,7 @@
     "model": "hf",
     "model_args": {
       "pretrained": "unsloth/Qwen2.5-3B-bnb-4bit",
-      "peft": "C:\\Users\\ADMIN\\H\\Day22-Track3-DPO-Alignment-Lab\\adapters\\dpo",
+      "peft": "C:\\Users\\ADMIN\\H\\Day22-Track3-DPO-Alignment-Lab\\adapters\\sft-mini",
       "dtype": "bfloat16"
     },
     "model_num_parameters": 3115317248,
@@ -126,12 +126,12 @@
     "torch_seed": 1234,
     "fewshot_seed": 1234
   },
-  "git_hash": "42a073a",
-  "date": 1778255053.8171117,
+  "git_hash": "92da0ce",
+  "date": 1778259143.8586547,
   "pretty_env_info": "PyTorch version: 2.11.0+cu128\nIs debug build: False\nCUDA used to build PyTorch: 12.8\nROCM used to build PyTorch: N/A\n\nOS: Microsoft Windows 11 Pro (10.0.26200 64-bit)\nGCC version: Could not collect\nClang version: Could not collect\nCMake version: Could not collect\nLibc version: N/A\n\nPython version: 3.12.12 (main, Feb 12 2026, 00:40:26) [MSC v.1944 64 bit (AMD64)] (64-bit runtime)\nPython platform: Windows-11-10.0.26200-SP0\nIs CUDA available: True\nCUDA runtime version: Could not collect\nCUDA_MODULE_LOADING set to: \nGPU models and configuration: GPU 0: NVIDIA GeForce RTX 5070\nNvidia driver version: 591.86\ncuDNN version: Could not collect\nIs XPU available: False\nHIP runtime version: N/A\nMIOpen runtime version: N/A\nIs XNNPACK available: True\nCaching allocator config: N/A\n\nCPU:\nName: Intel(R) Core(TM) i5-14400F\nManufacturer: GenuineIntel\nFamily: 205\nArchitecture: 9\nProcessorType: 3\nDeviceID: CPU0\nCurrentClockSpeed: 2500\nMaxClockSpeed: 2500\nL2CacheSize: 9728\nL2CacheSpeed: None\nRevision: None\n\nVersions of relevant libraries:\n[pip3] Could not collect\n[conda] Could not collect",
   "transformers_version": "4.57.6",
   "lm_eval_version": "0.4.11",
-  "upper_git_hash": "42a073a988d27a76484dbfc682e33efa0bdf48bc",
+  "upper_git_hash": "92da0ce5d0b3190261119b76100d51ab42222e62",
   "tokenizer_pad_token": [
     "<|vision_pad|>",
     "151654"
@@ -148,12 +148,12 @@
   "max_length": 32768,
   "task_hashes": {},
   "model_source": "hf",
-  "model_name": "C:\\Users\\ADMIN\\H\\Day22-Track3-DPO-Alignment-Lab\\adapters\\dpo",
-  "model_name_sanitized": "C__Users__ADMIN__H__Day22-Track3-DPO-Alignment-Lab__adapters__dpo",
+  "model_name": "C:\\Users\\ADMIN\\H\\Day22-Track3-DPO-Alignment-Lab\\adapters\\sft-mini",
+  "model_name_sanitized": "C__Users__ADMIN__H__Day22-Track3-DPO-Alignment-Lab__adapters__sft-mini",
   "system_instruction": null,
   "system_instruction_sha": null,
   "fewshot_as_multiturn": null,
   "chat_template": null,
   "chat_template_sha": null,
-  "total_evaluation_time_seconds": "2080.402982700005"
+  "total_evaluation_time_seconds": "2217.4034790000005"
 }

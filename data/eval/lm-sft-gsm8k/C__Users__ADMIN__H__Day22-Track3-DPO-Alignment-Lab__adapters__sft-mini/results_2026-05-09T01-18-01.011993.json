@@ -148,12 +148,12 @@
     "torch_seed": 1234,
     "fewshot_seed": 1234
   },
-  "git_hash": "42a073a",
-  "date": 1778257136.6097147,
+  "git_hash": "92da0ce",
+  "date": 1778263325.777178,
   "pretty_env_info": "PyTorch version: 2.11.0+cu128\nIs debug build: False\nCUDA used to build PyTorch: 12.8\nROCM used to build PyTorch: N/A\n\nOS: Microsoft Windows 11 Pro (10.0.26200 64-bit)\nGCC version: Could not collect\nClang version: Could not collect\nCMake version: Could not collect\nLibc version: N/A\n\nPython version: 3.12.12 (main, Feb 12 2026, 00:40:26) [MSC v.1944 64 bit (AMD64)] (64-bit runtime)\nPython platform: Windows-11-10.0.26200-SP0\nIs CUDA available: True\nCUDA runtime version: Could not collect\nCUDA_MODULE_LOADING set to: \nGPU models and configuration: GPU 0: NVIDIA GeForce RTX 5070\nNvidia driver version: 591.86\ncuDNN version: Could not collect\nIs XPU available: False\nHIP runtime version: N/A\nMIOpen runtime version: N/A\nIs XNNPACK available: True\nCaching allocator config: N/A\n\nCPU:\nName: Intel(R) Core(TM) i5-14400F\nManufacturer: GenuineIntel\nFamily: 205\nArchitecture: 9\nProcessorType: 3\nDeviceID: CPU0\nCurrentClockSpeed: 2500\nMaxClockSpeed: 2500\nL2CacheSize: 9728\nL2CacheSpeed: None\nRevision: None\n\nVersions of relevant libraries:\n[pip3] Could not collect\n[conda] Could not collect",
   "transformers_version": "4.57.6",
   "lm_eval_version": "0.4.11",
-  "upper_git_hash": "42a073a988d27a76484dbfc682e33efa0bdf48bc",
+  "upper_git_hash": "92da0ce5d0b3190261119b76100d51ab42222e62",
   "tokenizer_pad_token": [
     "<|vision_pad|>",
     "151654"
@@ -177,5 +177,5 @@
   "fewshot_as_multiturn": null,
   "chat_template": null,
   "chat_template_sha": null,
-  "total_evaluation_time_seconds": "1005.2343657000165"
+  "total_evaluation_time_seconds": "959.274103600008"
 }
